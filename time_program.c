@@ -29,10 +29,15 @@ struct timeval {
 	time_t tv_sec;
 	suseconds_t tv_usec; //microseconds
 };
+
+struct timezone {
+	int tz_minuteswest;
+	int tz_dsttime;
+};
 */
 /*
 time transformation:
-timestamp -> utc time   gmtime
+timestamp -> utc time   gmtime(green mean time)
 timestamp -> local time localtime
 timestamp -> string format ctime
 struct tm -> string format acstime
@@ -95,8 +100,10 @@ int main(int argc, char *argv[])
 	//get more accurate system time
 	//gettimeofday
 	struct timeval tv;
-	gettimeofday(&tv, NULL);
+	struct timezone tz;
+	gettimeofday(&tv, &tz);
 	printf("tv sec: %d, tv_usec: %d\n", tv.tv_sec, tv.tv_usec);
+	printf("tz.tz_minuteswest = %d\n", tz.tz_minuteswest);
 
 	//set system time
 	//settimeofday
